@@ -225,15 +225,7 @@ void deleteItem(std::vector<Item*> &item_array){
     std::cout << "Enter ID of the item you wish to delete: ";
     std::cin >> targetId;
     std::cin.ignore();
-    /*
-    for(Item* item : item_array){
-        if (item->getId() == targetId){
-            delete item;
-            item_array.erase(item);
-        }
-    return;
-    }
-    */
+
     bool found = false; 
     for (auto it = item_array.begin(); it != item_array.end(); ++it) {
         if ((*it)->getId() == targetId) {
@@ -265,6 +257,83 @@ void saveChanges(std::vector<Item*> &item_array){
     }
 }
 
+void searchByItemID(const std::vector<Item*> &item_array){
+    int targetID;
+    std::cout << "Enter ID of the item you wish to find: ";
+    std::cin >> targetID;
+    std::cin.ignore();
+    for(Item *item : item_array){
+        if(item->getId() == targetID){
+            item->displayItem();
+            std::cout<<"---------------------\n\n";
+            return;
+        }
+    }
+    std::cout << "Item with item ID " << targetID << " couldn't be found.\n";
+    return;
+}
+
+
+void searchByName(const std::vector<Item*> &item_array){
+    std::vector<Item*> exactMatches;
+    std::vector<Item*> partialMatches;
+    std::string targetName;
+    std::cout << "Enter the name of the item you wish to find: ";
+    std::cin >> targetName;
+    std::cin.ignore();
+
+    for(Item *item : item_array){
+        if(item->getName() == targetName){
+            exactMatches.push_back(item);
+        }
+        if(item->getName().find(targetName) != std::string::npos){ //npos je no position, .find() vraca indeks prvog pojavljivalja podstrigna u arg. ako find() vrati npos, znaci da podstring nije nadjen
+            partialMatches.push_back(item);
+        }
+    }
+    std::cout << "\nExact matches: \n";
+    for(Item *item : exactMatches){
+        item->displayItem();
+        std::cout<<"---------------------\n\n";
+    }
+    std::cout << "\nPartial matches: \n";
+    for(Item *item : partialMatches){
+        item->displayItem();
+        std::cout<<"---------------------\n\n";
+    }
+}
+
+void searchByDescription(const std::vector<Item*> &item_array){
+    std::vector<Item*> exactMatches;
+    std::vector<Item*> partialMatches;
+    std::string targetDescription;
+    std::cout << "Enter the description of the item you wish to find: ";
+    std::cin >> targetDescription;
+    std::cin.ignore();
+
+    for(Item *item : item_array){
+        if(item->getName() == targetDescription){
+            exactMatches.push_back(item);
+        }
+        if(item->getName().find(targetDescription) != std::string::npos){
+            partialMatches.push_back(item);
+        }
+    }
+    std::cout << "\nExact matches: \n";
+    for(Item *item : exactMatches){
+        item->displayItem();
+        std::cout<<"---------------------\n\n";
+    }
+    std::cout << "\nPartial matches: \n";
+    for(Item *item : partialMatches){
+        item->displayItem();
+        std::cout<<"---------------------\n\n";
+    }
+}
+
+void searchByPrice(const std::vector<Item*> &item_array){
+    
+}
+
 void showMenu(){
     std::cout << "Inventory Management System\n";
     std::cout << "1. Add Item\n";
@@ -272,7 +341,8 @@ void showMenu(){
     std::cout << "3. Update Item\n";
     std::cout << "4. Delete Item\n";
     std::cout << "5. Save changes\n";
-    std::cout << "6. Exit\n";
+    std::cout << "6. Search and filter\n";
+    std::cout << "7. Exit\n";
     std::cout << "Enter your choice: ";
 }
 
@@ -306,5 +376,23 @@ void showElectronicsMenu(){
     std::cout << "1. Add phones\n";
     std::cout << "2. Add televisions\n";
     std::cout << "3. Exit\n";
+    std::cout << "Enter your choice: ";
+}
+
+void searchAndFilterMenu(){
+    std::cout<<"What kwould you like to search or filter?\n\n";
+    std::cout << "1. Search\n";
+    std::cout << "2. Filter\n";
+    std::cout << "3. Exit\n";
+    std::cout << "Enter your choice: ";
+}
+
+void searchMenu(){
+    std::cout<<"Which attribute would you like to filter by?\n\n";
+    std::cout << "1. Item ID\n";
+    std::cout << "2. Name\n";
+    std::cout << "3. Description\n";
+    std::cout << "4. Price\n";
+    std::cout << "5. Exit\n";
     std::cout << "Enter your choice: ";
 }
